@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://otonyeiyalla.github.io/zenlot-site/sitemap.xml
