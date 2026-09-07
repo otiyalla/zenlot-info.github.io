@@ -30,21 +30,24 @@
   /* --- Screenshot fallback -------------------------------------------------
      Device frames stay in the "empty" (branded placeholder) state until the
      matching PNG in assets/screenshots/ actually loads. Drop the files in and
-     the placeholder disappears automatically — no markup changes needed.      */
+     the placeholder disappears automatically — no markup changes needed.
+
+     `settle()` reads ground truth (complete + decoded) rather than trusting a
+     one-shot `complete` check, and the listeners stay attached, so a frame
+     recovers whenever its image finishes — including loading="lazy" images
+     that only fetch once scrolled near.                                       */
   document.querySelectorAll('.device').forEach(function (device) {
     var img = device.querySelector('img');
     if (!img) { device.classList.add('is-empty'); return; }
 
-    var markFilled = function () { device.classList.remove('is-empty'); };
-    var markEmpty = function () { device.classList.add('is-empty'); };
+    var settle = function () {
+      device.classList.toggle('is-empty', !(img.complete && img.naturalWidth > 0));
+    };
 
     device.classList.add('is-empty');
-    if (img.complete) {
-      img.naturalWidth > 0 ? markFilled() : markEmpty();
-    } else {
-      img.addEventListener('load', markFilled);
-      img.addEventListener('error', markEmpty);
-    }
+    img.addEventListener('load', settle);
+    img.addEventListener('error', settle);
+    settle();
   });
 
   /* --- Sticky nav state ---------------------------------------------------- */

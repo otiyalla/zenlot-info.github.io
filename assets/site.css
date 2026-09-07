@@ -266,13 +266,18 @@ body {
 
 .device-placeholder .dp-mark { width: 54px; height: 54px; border-radius: 24%; opacity: 0.9; }
 .device-placeholder .dp-label { font-size: 0.7rem; color: var(--text-dimmer); letter-spacing: 0.04em; }
-.device.is-empty .device-screen img { display: none; }
+/* `> img` targets only the screenshot, never the placeholder's own logo.
+   Not display:none — that removes the layout box, and a loading="lazy" image
+   with no box never enters the viewport, so it never fetches and the frame
+   stays stuck on the placeholder until a reload. opacity keeps the box (lazy
+   loading still fires) while the placeholder, painted on top, hides it. */
+.device.is-empty .device-screen > img { opacity: 0; }
 .device:not(.is-empty) .device-placeholder { display: none; }
 
-/* With the screenshot <img> hidden, an empty frame has no intrinsic width to
-   hand the flex layout, so in the hero's side-by-side cluster it would collapse
-   to nothing. A min-width floor keeps the branded placeholder legible; it still
-   shrinks proportionally toward this floor when space is tight. */
+/* Before its image loads (or when there's no image at all) an empty frame has
+   no intrinsic width to hand the flex layout, so in the hero's side-by-side
+   cluster it would collapse to nothing. A min-width floor keeps the branded
+   placeholder legible; it still shrinks toward this floor when space is tight. */
 .device.is-empty { min-width: 11rem; }
 
 .device-float { animation: float 7s ease-in-out infinite; }
