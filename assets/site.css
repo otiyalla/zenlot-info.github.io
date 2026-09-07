@@ -269,6 +269,12 @@ body {
 .device.is-empty .device-screen img { display: none; }
 .device:not(.is-empty) .device-placeholder { display: none; }
 
+/* With the screenshot <img> hidden, an empty frame has no intrinsic width to
+   hand the flex layout, so in the hero's side-by-side cluster it would collapse
+   to nothing. A min-width floor keeps the branded placeholder legible; it still
+   shrinks proportionally toward this floor when space is tight. */
+.device.is-empty { min-width: 11rem; }
+
 .device-float { animation: float 7s ease-in-out infinite; }
 .device-float-slow { animation: float 9s ease-in-out infinite; animation-delay: -3s; }
 

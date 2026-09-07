@@ -79,6 +79,16 @@
     el.textContent = String(new Date().getFullYear());
   });
 
+  /* --- Remember an explicit language choice -------------------------------
+     The header/menu/footer EN·FR·ES links all carry hreflang. Clicking one is
+     a deliberate choice, so store it: the root page's auto-routing script
+     (see index.html <head>) reads this and stops overriding the visitor.      */
+  document.querySelectorAll('a[hreflang]').forEach(function (a) {
+    a.addEventListener('click', function () {
+      try { localStorage.setItem('zenlot:lang', a.getAttribute('hreflang')); } catch (e) {}
+    });
+  });
+
   /* --- Nudge visitors to the store matching their device -------------------
      Purely cosmetic: highlights the more likely badge, never hides the other. */
   var ua = navigator.userAgent || '';

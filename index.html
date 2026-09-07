@@ -6,6 +6,47 @@
 <title>Zenlot — Risk management and trade journaling for disciplined traders</title>
 
 <!-- ==========================================================================
+     LANGUAGE AUTO-ROUTING — English root only.
+     Sends a first-time visitor to /fr/ or /es/ when that matches their browser
+     language; anything else stays here on English. Runs before paint so there's
+     no flash. A manual pick via the header EN/FR/ES switcher is remembered
+     (localStorage, set in assets/site.js) and always wins. Force a language with
+     ?lang=en|fr|es. Subpages never redirect, so shared /fr/ and /es/ links are
+     honoured as-is.
+     ========================================================================== -->
+<script>
+(function () {
+  var LOCALES = { fr: 1, es: 1 };          // everything else falls back to English (this page)
+  var KEY = 'zenlot:lang';
+
+  // Respect the back/forward button: if the visitor reached this page through
+  // history navigation, never bounce them off it.
+  try {
+    var entry = performance.getEntriesByType('navigation')[0];
+    if (entry && entry.type === 'back_forward') return;
+  } catch (e) {}
+
+  var pick;
+  try {
+    var forced = location.search.match(/[?&]lang=(en|fr|es)\b/);
+    if (forced) { pick = forced[1]; localStorage.setItem(KEY, pick); }
+    else { pick = localStorage.getItem(KEY); }
+  } catch (e) {}
+
+  if (!pick) {
+    var langs = navigator.languages || [navigator.language || 'en'];
+    for (var i = 0; i < langs.length; i++) {
+      var base = String(langs[i] || '').toLowerCase().split('-')[0];
+      if (base === 'en' || LOCALES[base]) { pick = base; break; }
+    }
+  }
+
+  // Redirect with replace() so this page never becomes a back-button trap.
+  if (pick && LOCALES[pick]) location.replace(pick + '/' + location.hash);
+})();
+</script>
+
+<!-- ==========================================================================
      STORE LINKS — edit in one place if they ever change.
        iOS      https://apps.apple.com/us/app/zenlot/id6759946394
        Android  https://play.google.com/store/apps/details?id=com.zenlot.app
@@ -16,10 +57,11 @@
 <meta name="description" content="Zenlot sets your stop-loss, take-profit and position size before you enter — then journals every trade so you can see what your discipline is actually costing you. Free on iOS and Android.">
 <meta name="theme-color" content="#001c34">
 <meta name="apple-mobile-web-app-title" content="Zenlot">
-<link rel="canonical" href="https://otonyeiyalla.github.io/zenlot-site/">
-<link rel="alternate" hreflang="en" href="https://otonyeiyalla.github.io/zenlot-site/">
-<link rel="alternate" hreflang="fr" href="https://otonyeiyalla.github.io/zenlot-site/fr/">
-<link rel="alternate" hreflang="x-default" href="https://otonyeiyalla.github.io/zenlot-site/">
+<link rel="canonical" href="https://info.zenlot.net/">
+<link rel="alternate" hreflang="en" href="https://info.zenlot.net/">
+<link rel="alternate" hreflang="fr" href="https://info.zenlot.net/fr/">
+<link rel="alternate" hreflang="es" href="https://info.zenlot.net/es/">
+<link rel="alternate" hreflang="x-default" href="https://info.zenlot.net/">
 
 <link rel="icon" type="image/png" sizes="32x32" href="assets/brand/favicon-32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="assets/brand/favicon-16.png">
@@ -29,14 +71,15 @@
 <meta property="og:site_name" content="Zenlot">
 <meta property="og:locale" content="en_US">
 <meta property="og:locale:alternate" content="fr_FR">
-<meta property="og:url" content="https://otonyeiyalla.github.io/zenlot-site/">
+<meta property="og:locale:alternate" content="es_ES">
+<meta property="og:url" content="https://info.zenlot.net/">
 <meta property="og:title" content="Zenlot — Risk management and trade journaling for disciplined traders">
 <meta property="og:description" content="Set your risk rules once. Zenlot enforces them on every trade and journals the reasoning behind each one.">
-<meta property="og:image" content="https://otonyeiyalla.github.io/zenlot-site/assets/brand/zenlot-icon.png">
+<meta property="og:image" content="https://info.zenlot.net/assets/brand/zenlot-icon.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Zenlot — Risk management and trade journaling">
 <meta name="twitter:description" content="Set your risk rules once. Zenlot enforces them on every trade.">
-<meta name="twitter:image" content="https://otonyeiyalla.github.io/zenlot-site/assets/brand/zenlot-icon.png">
+<meta name="twitter:image" content="https://info.zenlot.net/assets/brand/zenlot-icon.png">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -69,12 +112,12 @@ tailwind.config = {
   "applicationCategory": "FinanceApplication",
   "operatingSystem": "iOS, Android",
   "description": "Risk management and trade journaling app. Set stop-loss, take-profit and position-size rules once, then apply them consistently on every trade.",
-  "url": "https://otonyeiyalla.github.io/zenlot-site/",
+  "url": "https://info.zenlot.net/",
   "installUrl": [
     "https://apps.apple.com/us/app/zenlot/id6759946394",
     "https://play.google.com/store/apps/details?id=com.zenlot.app"
   ],
-  "inLanguage": ["en", "fr"],
+  "inLanguage": ["en", "fr", "es"],
   "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
 }
 </script>
@@ -102,6 +145,7 @@ tailwind.config = {
 
     <div class="flex items-center gap-2.5">
       <a href="fr/" hreflang="fr" class="hidden sm:inline-flex items-center px-2.5 py-1.5 rounded-lg text-[0.78rem] font-semibold text-[color:var(--text-dim)] border border-[color:var(--line)] hover:text-white hover:border-[color:var(--line-strong)] transition-colors" aria-label="Voir cette page en français">FR</a>
+      <a href="es/" hreflang="es" class="hidden sm:inline-flex items-center px-2.5 py-1.5 rounded-lg text-[0.78rem] font-semibold text-[color:var(--text-dim)] border border-[color:var(--line)] hover:text-white hover:border-[color:var(--line-strong)] transition-colors" aria-label="Ver esta página en español">ES</a>
       <a href="#download" class="btn btn-primary text-[0.88rem] px-4 py-2">Download</a>
       <button id="menu-toggle" class="md:hidden p-2 -mr-2 text-[color:var(--text-dim)]" aria-expanded="false" aria-controls="mobile-menu" aria-label="Toggle menu">
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
@@ -115,6 +159,7 @@ tailwind.config = {
     <a href="#profiles" class="block py-2.5 text-[color:var(--text-dim)] hover:text-white">Risk profiles</a>
     <a href="#faq" class="block py-2.5 text-[color:var(--text-dim)] hover:text-white">FAQ</a>
     <a href="fr/" hreflang="fr" class="block py-2.5 text-[color:var(--text-dim)] hover:text-white">Français</a>
+    <a href="es/" hreflang="es" class="block py-2.5 text-[color:var(--text-dim)] hover:text-white">Español</a>
   </div>
 </header>
 
@@ -162,7 +207,7 @@ tailwind.config = {
         <ul class="mt-8 flex flex-wrap gap-x-6 gap-y-2.5 text-[0.88rem] text-[color:var(--text-dimmer)]">
           <li class="flex items-center gap-2"><svg class="tick" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Free to download</li>
           <li class="flex items-center gap-2"><svg class="tick" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>No broker connection required</li>
-          <li class="flex items-center gap-2"><svg class="tick" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>English &amp; Français</li>
+          <li class="flex items-center gap-2"><svg class="tick" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>English, Français &amp; Español</li>
         </ul>
       </div>
 
@@ -410,7 +455,7 @@ tailwind.config = {
       </details>
       <details class="card p-6">
         <summary class="font-semibold text-[1.02rem]">Which languages are supported?<svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="m6 9 6 6 6-6"/></svg></summary>
-        <p class="mt-4 text-[0.95rem] leading-relaxed text-[color:var(--text-dim)]">English and French, throughout the app — including dates, number formatting and decimal separators, which follow your device and language settings.</p>
+        <p class="mt-4 text-[0.95rem] leading-relaxed text-[color:var(--text-dim)]">English, French and Spanish, throughout the app — including dates, number formatting and decimal separators, which follow your device and language settings.</p>
       </details>
       <details class="card p-6">
         <summary class="font-semibold text-[1.02rem]">Can I change my risk rules later?<svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="m6 9 6 6 6-6"/></svg></summary>
@@ -468,7 +513,7 @@ tailwind.config = {
           <img src="assets/brand/zenlot-mark.png" alt="" width="30" height="30" class="w-[30px] h-[30px] rounded-[9px]">
           <span class="text-[1.05rem] font-extrabold tracking-tight">Zenlot</span>
         </a>
-        <p class="mt-4 text-[0.9rem] leading-relaxed text-[color:var(--text-dimmer)]">Master risk management with ease. Available on iOS and Android in English and French.</p>
+        <p class="mt-4 text-[0.9rem] leading-relaxed text-[color:var(--text-dimmer)]">Master risk management with ease. Available on iOS and Android in English, French and Spanish.</p>
       </div>
 
       <div class="grid grid-cols-2 sm:grid-cols-3 gap-x-12 gap-y-8 text-[0.9rem]">
@@ -495,6 +540,7 @@ tailwind.config = {
             <li><a href="https://privacy.zenlot.net/privacy-policy/" target="_blank" rel="noopener" class="hover:text-white transition-colors">Privacy policy</a></li>
             <li><a href="https://privacy.zenlot.net/account-deletion/" target="_blank" rel="noopener" class="hover:text-white transition-colors">Account deletion</a></li>
             <li><a href="fr/" hreflang="fr" class="hover:text-white transition-colors">Français</a></li>
+            <li><a href="es/" hreflang="es" class="hover:text-white transition-colors">Español</a></li>
           </ul>
         </div>
       </div>
