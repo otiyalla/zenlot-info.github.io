@@ -1,15 +1,42 @@
 <!DOCTYPE html>
-<html lang="fr" class="dark">
+<html lang="fr" data-shots-base="../assets/screenshots/">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Zenlot — Gestion du risque et journal de trading</title>
+<title>Zenlot | Journal de trading forex gratuit</title>
 
-<!-- Formulations reprises de zenlot/localization/french.ts pour que la
-     terminologie du site corresponde exactement à celle de l'application. -->
+<!-- ==========================================================================
+     THEME — runs before paint so there's no flash. A stored pick
+     (localStorage zenlot:theme, set by the header toggle in assets/site.js)
+     wins; otherwise the system setting applies and keeps being followed.
+     Force one with ?theme=light|dark (also stored, like ?lang=).
+     ========================================================================== -->
+<script>
+(function () {
+  var t = null;
+  try {
+    var forced = location.search.match(/[?&]theme=(light|dark)\b/);
+    if (forced) { t = forced[1]; localStorage.setItem('zenlot:theme', t); }
+    else { t = localStorage.getItem('zenlot:theme'); }
+  } catch (e) {}
+  if (t !== 'light' && t !== 'dark') {
+    t = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  }
+  document.documentElement.setAttribute('data-theme', t);
+})();
+</script>
 
-<meta name="description" content="Zenlot définit votre stop-loss, votre take-profit et votre taille de position avant l'entrée, à partir de règles que vous fixez une seule fois. Puis il journalise chaque trade. Gratuit sur iOS et Android.">
-<meta name="theme-color" content="#001c34">
+<!-- ==========================================================================
+     STORE LINKS — edit in one place if they ever change.
+       iOS      https://apps.apple.com/us/app/zenlot/id6759946394
+       Android  https://play.google.com/store/apps/details?id=com.zenlot.app
+     SCREENSHOTS — drop PNGs into assets/screenshots/<lang>/<light|dark>/ using
+     the filenames in assets/screenshots/README.md. Frames swap from placeholder
+     to image automatically and follow the active theme.
+     ========================================================================== -->
+
+<meta name="description" content="Construisez une routine de trading avec Zenlot. Définissez des règles de trading réutilisables, enregistrez vos trades et relisez votre journal et votre historique. Actuellement gratuit sur iOS et Android.">
+<meta name="theme-color" content="#001c34" data-dynamic>
 <meta name="apple-mobile-web-app-title" content="Zenlot">
 <link rel="canonical" href="https://info.zenlot.net/fr/">
 <link rel="alternate" hreflang="en" href="https://info.zenlot.net/">
@@ -27,35 +54,19 @@
 <meta property="og:locale:alternate" content="en_US">
 <meta property="og:locale:alternate" content="es_ES">
 <meta property="og:url" content="https://info.zenlot.net/fr/">
-<meta property="og:title" content="Zenlot — Gestion du risque et journal de trading">
-<meta property="og:description" content="Définissez vos règles de risque une seule fois. Zenlot les applique à chaque trade et journalise votre raisonnement.">
-<meta property="og:image" content="https://info.zenlot.net/assets/brand/zenlot-icon.png">
+<meta property="og:title" content="Zenlot | Journal de trading forex gratuit">
+<meta property="og:description" content="Construisez une routine de trading avec Zenlot. Définissez des règles de trading réutilisables, enregistrez vos trades et relisez votre journal et votre historique. Actuellement gratuit sur iOS et Android.">
+<meta property="og:image" content="https://info.zenlot.net/assets/brand/og-fr.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Zenlot — Gestion du risque et journal de trading">
-<meta name="twitter:description" content="Définissez vos règles de risque une seule fois. Zenlot les applique à chaque trade.">
-<meta name="twitter:image" content="https://info.zenlot.net/assets/brand/zenlot-icon.png">
+<meta name="twitter:title" content="Zenlot | Journal de trading forex gratuit">
+<meta name="twitter:description" content="Construisez une routine de trading avec Zenlot. Définissez des règles de trading réutilisables, enregistrez vos trades et relisez votre journal et votre historique. Actuellement gratuit sur iOS et Android.">
+<meta name="twitter:image" content="https://info.zenlot.net/assets/brand/og-fr.png">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
-
-<script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
-<script>
-tailwind.config = {
-  darkMode: 'class',
-  theme: {
-    extend: {
-      colors: {
-        ink:  { 900: '#00121f', 800: '#001c34', 700: '#052a45', 600: '#0b3a5c' },
-        teal: { DEFAULT: '#2fbcc1', bright: '#45d7dc' },
-        brand:{ blue: '#1478a7', bright: '#2a9bd4' }
-      },
-      fontFamily: { sans: ['"Plus Jakarta Sans"', 'ui-sans-serif', 'system-ui', 'sans-serif'] },
-      maxWidth: { site: '1180px' }
-    }
-  }
-}
-</script>
 <link rel="stylesheet" href="../assets/site.css">
 
 <script type="application/ld+json">
@@ -65,55 +76,57 @@ tailwind.config = {
   "name": "Zenlot",
   "applicationCategory": "FinanceApplication",
   "operatingSystem": "iOS, Android",
-  "description": "Application de gestion du risque et de journal de trading. Définissez vos règles de stop-loss, take-profit et taille de position une seule fois, puis appliquez-les à chaque trade.",
+  "description": "Construisez une routine de trading avec Zenlot. Définissez des règles de trading réutilisables, enregistrez vos trades et relisez votre journal et votre historique. Actuellement gratuit sur iOS et Android.",
   "url": "https://info.zenlot.net/fr/",
   "installUrl": [
     "https://apps.apple.com/us/app/zenlot/id6759946394",
     "https://play.google.com/store/apps/details?id=com.zenlot.app"
   ],
-  "inLanguage": ["fr", "en", "es"],
-  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "EUR" }
+  "inLanguage": ["en", "fr", "es"],
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
 }
 </script>
 </head>
 
-<body class="antialiased">
+<body>
 <a href="#main" class="skip-link">Aller au contenu</a>
 
-<div class="bg-shell" aria-hidden="true"><div class="bg-grid"></div></div>
+<!-- ============================== HEADER ============================== -->
+<header id="site-nav" class="site-nav">
+  <div class="wrap">
+    <div class="nav-row">
+      <a href="#top" class="brand" aria-label="Zenlot">
+        <img src="../assets/brand/zenlot-mark.png" alt="" width="30" height="30">
+        <span>Zenlot</span>
+      </a>
 
-<!-- ============================== NAV ============================== -->
-<header id="site-nav" class="fixed top-0 inset-x-0 z-50 border-transparent transition-all duration-300" style="border-bottom-color: var(--line);">
-  <nav class="mx-auto max-w-site px-5 sm:px-8 h-[68px] flex items-center justify-between" aria-label="Navigation principale">
-    <a href="#top" class="flex items-center gap-2.5 shrink-0">
-      <img src="../assets/brand/zenlot-mark.png" alt="" width="34" height="34" class="w-[34px] h-[34px] rounded-[10px]">
-      <span class="text-[1.12rem] font-extrabold tracking-tight">Zenlot</span>
-    </a>
+      <nav class="nav-links" aria-label="Principale">
+        <a href="#how">Fonctionnement</a>
+        <a href="#features">Fonctionnalités</a>
+        <a href="#faq">FAQ</a>
+      </nav>
 
-    <div class="hidden md:flex items-center gap-8 text-[0.92rem] text-[color:var(--text-dim)]">
-      <a href="#how" class="hover:text-white transition-colors">Fonctionnement</a>
-      <a href="#features" class="hover:text-white transition-colors">Fonctionnalités</a>
-      <a href="#profiles" class="hover:text-white transition-colors">Profils de risque</a>
-      <a href="#faq" class="hover:text-white transition-colors">FAQ</a>
+      <div class="nav-tools">
+        <div class="lang-switch" aria-label="Langue">
+          <a href="../" hreflang="en" lang="en" title="English">EN</a><span aria-current="page">FR</span><a href="../es/" hreflang="es" lang="es" title="Español">ES</a>
+        </div>
+        <button type="button" class="icon-btn theme-toggle" aria-label="Passer en mode sombre" title="Passer en mode sombre" data-label-dark="Passer en mode sombre" data-label-light="Passer en mode clair">
+          <svg class="ico-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+          <svg class="ico-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+        <a href="#download" class="btn btn-primary btn-sm nav-cta">Télécharger Zenlot</a>
+        <button type="button" id="menu-toggle" class="icon-btn menu-toggle" aria-expanded="false" aria-controls="mobile-menu" aria-label="Ouvrir le menu">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+        </button>
+      </div>
     </div>
-
-    <div class="flex items-center gap-2.5">
-      <a href="../" hreflang="en" class="hidden sm:inline-flex items-center px-2.5 py-1.5 rounded-lg text-[0.78rem] font-semibold text-[color:var(--text-dim)] border border-[color:var(--line)] hover:text-white hover:border-[color:var(--line-strong)] transition-colors" aria-label="View this page in English">EN</a>
-      <a href="../es/" hreflang="es" class="hidden sm:inline-flex items-center px-2.5 py-1.5 rounded-lg text-[0.78rem] font-semibold text-[color:var(--text-dim)] border border-[color:var(--line)] hover:text-white hover:border-[color:var(--line-strong)] transition-colors" aria-label="Voir cette page en espagnol">ES</a>
-      <a href="#download" class="btn btn-primary text-[0.88rem] px-4 py-2">Télécharger</a>
-      <button id="menu-toggle" class="md:hidden p-2 -mr-2 text-[color:var(--text-dim)]" aria-expanded="false" aria-controls="mobile-menu" aria-label="Ouvrir le menu">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
-      </button>
-    </div>
-  </nav>
-
-  <div id="mobile-menu" class="hidden md:hidden glass border-t px-5 pb-5 pt-2 space-y-1" style="border-top-color: var(--line);">
-    <a href="#how" class="block py-2.5 text-[color:var(--text-dim)] hover:text-white">Fonctionnement</a>
-    <a href="#features" class="block py-2.5 text-[color:var(--text-dim)] hover:text-white">Fonctionnalités</a>
-    <a href="#profiles" class="block py-2.5 text-[color:var(--text-dim)] hover:text-white">Profils de risque</a>
-    <a href="#faq" class="block py-2.5 text-[color:var(--text-dim)] hover:text-white">FAQ</a>
-    <a href="../" hreflang="en" class="block py-2.5 text-[color:var(--text-dim)] hover:text-white">English</a>
-    <a href="../es/" hreflang="es" class="block py-2.5 text-[color:var(--text-dim)] hover:text-white">Español</a>
+  </div>
+  <div id="mobile-menu" class="mobile-menu">
+    <a href="#how">Fonctionnement</a>
+    <a href="#features">Fonctionnalités</a>
+    <a href="#faq">FAQ</a>
+    <a href="#download">Télécharger Zenlot</a>
+    <div class="mm-langs"><a href="../" hreflang="en" lang="en" title="English">EN</a><span aria-current="page">FR</span><a href="../es/" hreflang="es" lang="es" title="Español">ES</a></div>
   </div>
 </header>
 
@@ -121,376 +134,301 @@ tailwind.config = {
 <span id="top"></span>
 
 <!-- ============================== HERO ============================== -->
-<section class="relative pt-32 pb-20 sm:pt-40 sm:pb-28">
-  <div class="mx-auto max-w-site px-5 sm:px-8">
-    <div class="grid lg:grid-cols-[1.08fr_0.92fr] gap-14 lg:gap-8 items-center">
+<section class="shell shell-ambient hero">
+  <div class="wrap">
+    <div class="hero-grid">
+      <div>
+        <span class="pill"><span class="dot" aria-hidden="true"></span>Un journal de trading forex pour tous les niveaux</span>
+        <h1 class="h1 balance" style="margin-top:1.4rem">Construisez votre discipline.<br>Tradez selon <span class="grad-text">vos règles.</span></h1>
+        <p class="lead" style="max-width:34rem">Réunissez vos règles de trading, les détails de vos trades et vos réflexions dans un seul journal mobile. Zenlot vous aide à bâtir une routine autour de la planification, de l’enregistrement et de la relecture de vos trades.</p>
 
-      <div class="reveal">
-        <div class="inline-flex items-center gap-2 rounded-full border border-[color:var(--line-strong)] bg-white/5 px-3.5 py-1.5 text-[0.78rem] text-[color:var(--text-dim)] mb-7">
-          <span class="w-1.5 h-1.5 rounded-full bg-[color:var(--teal)]"></span>
-          Disponible sur iOS et Android
-        </div>
-
-        <h1 class="text-[2.45rem] leading-[1.08] sm:text-6xl lg:text-[3.9rem] font-extrabold tracking-[-0.035em] balance">
-          Un seul mauvais trade<br>ne devrait pas ruiner<br><span class="grad-text">tout votre mois.</span>
-        </h1>
-
-        <p class="mt-7 text-[1.08rem] sm:text-xl leading-relaxed text-[color:var(--text-dim)] max-w-[35rem]">
-          Zenlot détermine votre stop-loss, votre take-profit et votre taille de position <em class="text-white not-italic font-semibold">avant</em> l'entrée, à partir de règles que vous fixez une seule fois. Puis il journalise le raisonnement derrière chaque trade, pour que vos schémas cessent d'être invisibles.
-        </p>
-
-        <div id="download" class="mt-9 flex flex-wrap gap-3 scroll-mt-28">
-          <a href="https://apps.apple.com/us/app/zenlot/id6759946394" data-store="ios" class="store-badge" target="_blank" rel="noopener" aria-label="Télécharger Zenlot sur l'App Store">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.53 4.08zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/></svg>
-            <span><span class="sb-small">Télécharger dans l'</span><span class="sb-big">App Store</span></span>
-          </a>
-
-          <a href="https://play.google.com/store/apps/details?id=com.zenlot.app" data-store="android" class="store-badge" target="_blank" rel="noopener" aria-label="Disponible sur Google Play">
-            <svg width="22" height="24" viewBox="0 0 512 512" aria-hidden="true">
-              <path fill="#00a0ff" d="M47 0C34 6.8 25.3 19.2 25.3 35.3v441.3c0 16.1 8.7 28.5 21.7 35.3l256.6-256L47 0z"/>
-              <path fill="#ffbc00" d="M472.2 225.6l-58.9-34.1-65.7 64.5 65.7 64.5 60.1-34.1c18-14.3 18-46.5-1.2-60.8z"/>
-              <path fill="#ff3a44" d="M104.6 499l280.8-161.2-60.1-60.1L104.6 499z"/>
-              <path fill="#00c852" d="M325.3 234.3L104.6 13l280.8 161.2-60.1 60.1z"/>
-            </svg>
-            <span><span class="sb-small">DISPONIBLE SUR</span><span class="sb-big">Google Play</span></span>
+        <div id="download" class="hero-actions" style="scroll-margin-top:6rem">
+          <div class="badges">
+            <a href="https://apps.apple.com/us/app/zenlot/id6759946394" data-store="ios" class="store-badge" target="_blank" rel="noopener" aria-label="Télécharger Zenlot sur l’App Store"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.53 4.08zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/></svg><span><span class="sb-small">Télécharger dans l’</span><span class="sb-big">App Store</span></span></a>
+            <a href="https://play.google.com/store/apps/details?id=com.zenlot.app" data-store="android" class="store-badge" target="_blank" rel="noopener" aria-label="Obtenir Zenlot sur Google Play"><svg width="22" height="24" viewBox="0 0 512 512" aria-hidden="true"><path fill="#00a0ff" d="M47 0C34 6.8 25.3 19.2 25.3 35.3v441.3c0 16.1 8.7 28.5 21.7 35.3l256.6-256L47 0z"/><path fill="#ffbc00" d="M472.2 225.6l-58.9-34.1-65.7 64.5 65.7 64.5 60.1-34.1c18-14.3 18-46.5-1.2-60.8z"/><path fill="#ff3a44" d="M104.6 499l280.8-161.2-60.1-60.1L104.6 499z"/><path fill="#00c852" d="M325.3 234.3L104.6 13l280.8 161.2-60.1 60.1z"/></svg><span><span class="sb-small">DISPONIBLE SUR</span><span class="sb-big">Google Play</span></span></a>
+          </div>
+          <a href="#how" class="btn btn-ghost">Voir comment Zenlot fonctionne
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
           </a>
         </div>
-
-        <ul class="mt-8 flex flex-wrap gap-x-6 gap-y-2.5 text-[0.88rem] text-[color:var(--text-dimmer)]">
-          <li class="flex items-center gap-2"><svg class="tick" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Téléchargement gratuit</li>
-          <li class="flex items-center gap-2"><svg class="tick" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Aucune connexion à un courtier</li>
-          <li class="flex items-center gap-2"><svg class="tick" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Français, English &amp; Español</li>
+        <p class="offer-line">Actuellement gratuit sur iOS et Android.</p>
+        <ul class="ticks">
+          <li><svg class="tick" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Téléchargement gratuit</li>
+          <li><svg class="tick" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Aucune connexion à un broker requise</li>
+          <li><svg class="tick" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>English, Français &amp; Español</li>
         </ul>
       </div>
 
-      <div class="reveal relative flex justify-center lg:justify-end">
-        <div class="relative flex items-end gap-4 sm:gap-6">
-          <div class="device device-float-slow hidden sm:block !max-w-[212px] opacity-70 mb-10">
-            <div class="device-screen">
-              <div class="device-island !h-[16px] !top-[8px]"></div>
-              <img src="../assets/screenshots/fr/journal.png" alt="Écran du journal de trading Zenlot" loading="lazy" decoding="async">
-              <div class="device-placeholder"><img class="dp-mark" src="../assets/brand/zenlot-mark.png" alt=""><span class="dp-label">journal.png</span></div>
-            </div>
-          </div>
-
-          <div class="device device-float">
-            <div class="device-screen">
-              <div class="device-island"></div>
-              <img src="../assets/screenshots/fr/plan.png" alt="Écran de plan de trade Zenlot avec stop-loss, take-profit et taille de position" loading="eager" decoding="async">
-              <div class="device-placeholder"><img class="dp-mark" src="../assets/brand/zenlot-mark.png" alt=""><span class="dp-label">plan.png</span></div>
-            </div>
-          </div>
+      <div class="device-cluster" aria-label="Écrans de l’application Zenlot">
+        <div class="shot device-back device-float-slow">
+          <div class="device device-sm"><div class="device-screen"><div class="device-island" aria-hidden="true"></div><img src="../assets/screenshots/fr/dark/03-journal.png" data-shot="03-journal" alt="Entrée de journal Zenlot avec une réflexion écrite sur un trade" loading="lazy" decoding="async"><div class="device-placeholder" aria-hidden="true"><img class="dp-mark" src="../assets/brand/zenlot-mark.png" alt=""><span class="dp-title">Capture à venir</span><span class="dp-label">03-journal.png</span></div></div></div>
         </div>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<!-- ============================== PROBLÈME ============================== -->
-<section class="py-20 sm:py-28 border-t" style="border-top-color: var(--line);">
-  <div class="mx-auto max-w-site px-5 sm:px-8">
-    <div class="max-w-3xl reveal">
-      <p class="eyebrow">Le vrai problème</p>
-      <h2 class="mt-4 text-3xl sm:text-[2.6rem] leading-[1.14] font-extrabold tracking-[-0.03em] balance">
-        La plupart des traders ne perdent pas face au marché.<br class="hidden sm:block"> Ils perdent face à eux-mêmes.
-      </h2>
-      <p class="mt-6 text-lg leading-relaxed text-[color:var(--text-dim)]">
-        Vous augmentez la taille après une perte. Vous déplacez le stop « juste cette fois ». Vous prenez le profit trop tôt par nervosité, puis vous laissez courir le perdant par espoir. Rien de tout cela n'est un problème de stratégie — et rien de tout cela n'apparaît sur une capture de P&amp;L.
-      </p>
-    </div>
-
-    <div class="mt-14 grid sm:grid-cols-3 gap-5">
-      <div class="card card-glow p-7 reveal">
-        <div class="text-[color:var(--teal)] mb-4">
-          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l6-6 4 4 8-8"/><path d="M17 7h4v4"/></svg>
+        <div class="shot device-front device-float">
+          <div class="device"><div class="device-screen"><div class="device-island" aria-hidden="true"></div><img src="../assets/screenshots/fr/dark/01-trade-entry.png" data-shot="01-trade-entry" alt="Écran de saisie de trade Zenlot montrant l’entrée, le stop-loss, le take-profit et le ratio risque/récompense" loading="eager" decoding="async"><div class="device-placeholder" aria-hidden="true"><img class="dp-mark" src="../assets/brand/zenlot-mark.png" alt=""><span class="dp-title">Capture à venir</span><span class="dp-label">01-trade-entry.png</span></div></div></div>
+          <p class="shot-caption">Données d’exemple</p>
         </div>
-        <h3 class="font-bold text-[1.05rem]">Dérive de la taille</h3>
-        <p class="mt-2.5 text-[0.94rem] leading-relaxed text-[color:var(--text-dim)]">Votre taille de position augmente discrètement quand vous cherchez à rattraper une perte — et c'est ce trade-là qui fait mal.</p>
-      </div>
-      <div class="card card-glow p-7 reveal">
-        <div class="text-[color:var(--teal)] mb-4">
-          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
-        </div>
-        <h3 class="font-bold text-[1.05rem]">Décisions sous pression</h3>
-        <p class="mt-2.5 text-[0.94rem] leading-relaxed text-[color:var(--text-dim)]">Choisir un stop en cours de trade, c'est le choisir au moment précis où vous êtes le moins capable d'objectivité.</p>
-      </div>
-      <div class="card card-glow p-7 reveal">
-        <div class="text-[color:var(--teal)] mb-4">
-          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="2.6"/></svg>
-        </div>
-        <h3 class="font-bold text-[1.05rem]">Schémas invisibles</h3>
-        <p class="mt-2.5 text-[0.94rem] leading-relaxed text-[color:var(--text-dim)]">Sans raisonnement écrit, vous répétez la même erreur pendant des mois sans jamais la reconnaître comme une seule et même erreur.</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ============================== FONCTIONNEMENT ============================== -->
-<section id="how" class="py-20 sm:py-28 border-t" style="border-top-color: var(--line);">
-  <div class="mx-auto max-w-site px-5 sm:px-8">
-    <div class="max-w-2xl reveal">
-      <p class="eyebrow">Fonctionnement</p>
-      <h2 class="mt-4 text-3xl sm:text-[2.6rem] leading-[1.14] font-extrabold tracking-[-0.03em] balance">Trois étapes. Environ une minute.</h2>
-    </div>
+<div class="page">
 
-    <ol class="mt-14 grid md:grid-cols-3 gap-5">
-      <li class="card p-8 reveal">
-        <span class="inline-flex items-center justify-center w-9 h-9 rounded-xl bg-[color:var(--teal)]/12 border border-[color:var(--teal)]/30 text-[color:var(--teal)] font-extrabold text-sm">01</span>
-        <h3 class="mt-5 text-xl font-bold tracking-tight">Définissez votre profil de risque</h3>
-        <p class="mt-3 text-[0.96rem] leading-relaxed text-[color:var(--text-dim)]">Choisissez Prudent, Équilibré ou Dynamique — ou fixez chaque limite vous-même. C'est ce qui indique à Zenlot quand signaler un trade hors de vos règles.</p>
-      </li>
-      <li class="card p-8 reveal">
-        <span class="inline-flex items-center justify-center w-9 h-9 rounded-xl bg-[color:var(--teal)]/12 border border-[color:var(--teal)]/30 text-[color:var(--teal)] font-extrabold text-sm">02</span>
-        <h3 class="mt-5 text-xl font-bold tracking-tight">Planifiez avant d'entrer</h3>
-        <p class="mt-3 text-[0.96rem] leading-relaxed text-[color:var(--text-dim)]">Zenlot calcule automatiquement le stop-loss, le take-profit et la taille à partir de vos valeurs par défaut, et vous alerte dès qu'un trade dépasse vos propres limites.</p>
-      </li>
-      <li class="card p-8 reveal">
-        <span class="inline-flex items-center justify-center w-9 h-9 rounded-xl bg-[color:var(--teal)]/12 border border-[color:var(--teal)]/30 text-[color:var(--teal)] font-extrabold text-sm">03</span>
-        <h3 class="mt-5 text-xl font-bold tracking-tight">Journalisez et analysez</h3>
-        <p class="mt-3 text-[0.96rem] leading-relaxed text-[color:var(--text-dim)]">Notez pourquoi vous l'avez pris. Puis utilisez l'analyse hebdomadaire et mensuelle des pips pour voir quelles habitudes rapportent vraiment — et lesquelles vous coûtent.</p>
-      </li>
-    </ol>
-  </div>
-</section>
-
-<!-- ============================== FONCTIONNALITÉS ============================== -->
-<section id="features" class="py-20 sm:py-28 border-t" style="border-top-color: var(--line);">
-  <div class="mx-auto max-w-site px-5 sm:px-8">
-
-    <div class="max-w-2xl reveal">
-      <p class="eyebrow">Fonctionnalités</p>
-      <h2 class="mt-4 text-3xl sm:text-[2.6rem] leading-[1.14] font-extrabold tracking-[-0.03em] balance">Tout ce qu'il faut pour rester constant.</h2>
-    </div>
-
-    <div class="mt-16 grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-      <div class="reveal order-2 lg:order-1">
-        <p class="eyebrow">Règles de risque</p>
-        <h3 class="mt-3 text-2xl sm:text-[2rem] font-bold tracking-[-0.025em] leading-tight balance">Protégez votre capital avec des règles de risque claires</h3>
-        <p class="mt-5 text-[1.02rem] leading-relaxed text-[color:var(--text-dim)]">
-          Définissez vos règles de stop-loss et take-profit par défaut une seule fois, puis utilisez les calculs automatiques de Zenlot pour rester constant à chaque trade — sans renégocier votre propre risque en plein mouvement.
-        </p>
-        <ul class="mt-6 space-y-3 text-[0.96rem] text-[color:var(--text-dim)]">
-          <li class="flex gap-3"><svg class="tick mt-1" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Niveaux de stop-loss et take-profit automatiques</li>
-          <li class="flex gap-3"><svg class="tick mt-1" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Taille de position dérivée de vos propres limites</li>
-          <li class="flex gap-3"><svg class="tick mt-1" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Trades signalés dès qu'ils dépassent vos règles</li>
-        </ul>
-      </div>
-      <div class="reveal order-1 lg:order-2 flex justify-center">
-        <div class="device">
-          <div class="device-screen">
-            <div class="device-island"></div>
-            <img src="../assets/screenshots/fr/plan.png" alt="Écran de planification du risque Zenlot" loading="lazy" decoding="async">
-            <div class="device-placeholder"><img class="dp-mark" src="../assets/brand/zenlot-mark.png" alt=""><span class="dp-label">plan.png</span></div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="mt-24 grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-      <div class="reveal flex justify-center">
-        <div class="device">
-          <div class="device-screen">
-            <div class="device-island"></div>
-            <img src="../assets/screenshots/fr/journal.png" alt="Écran de journal structuré Zenlot" loading="lazy" decoding="async">
-            <div class="device-placeholder"><img class="dp-mark" src="../assets/brand/zenlot-mark.png" alt=""><span class="dp-label">journal.png</span></div>
-          </div>
-        </div>
-      </div>
+<!-- ============================== WHY ============================== -->
+<section class="section" id="why">
+  <div class="wrap">
+    <div class="why-grid">
       <div class="reveal">
-        <p class="eyebrow">Journal</p>
-        <h3 class="mt-3 text-2xl sm:text-[2rem] font-bold tracking-[-0.025em] leading-tight balance">Créez de la constance avec un journal structuré</h3>
-        <p class="mt-5 text-[1.02rem] leading-relaxed text-[color:var(--text-dim)]">
-          Capturez le contexte derrière chaque trade afin d'identifier des schémas d'exécution, éviter de répéter les mêmes erreurs et améliorer votre processus — avec des preuves plutôt qu'avec votre mémoire.
-        </p>
-        <ul class="mt-6 space-y-3 text-[0.96rem] text-[color:var(--text-dim)]">
-          <li class="flex gap-3"><svg class="tick mt-1" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Entrées structurées, pas une zone de texte vide</li>
-          <li class="flex gap-3"><svg class="tick mt-1" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Raisonnement rattaché au trade concerné</li>
-          <li class="flex gap-3"><svg class="tick mt-1" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Journal adapté à votre style de trading</li>
+        <p class="eyebrow">Pourquoi Zenlot</p>
+        <h2 class="h2 balance">Donnez à vos règles de trading une place dans votre routine.</h2>
+        <p class="lead">Avoir des règles est une étape. Y revenir en est une autre. Zenlot a été conçu pour aider les traders à améliorer leur discipline en gardant à portée de main les détails des trades, des réglages réutilisables et des réflexions écrites.</p>
+        <ul class="callouts">
+          <li><span class="num" aria-hidden="true">1</span><span>Définissez les règles avec lesquelles vous voulez travailler.</span></li>
+          <li><span class="num" aria-hidden="true">2</span><span>Notez le raisonnement derrière un trade.</span></li>
+          <li><span class="num" aria-hidden="true">3</span><span>Prenez le temps de relire ce qui s’est passé.</span></li>
         </ul>
+        <p class="founder-line">Nous avons créé Zenlot pour aider les traders à construire leur discipline et à trader selon leurs règles.</p>
       </div>
-    </div>
 
-    <div class="mt-24 grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-      <div class="reveal order-2 lg:order-1">
-        <p class="eyebrow">Analyses</p>
-        <h3 class="mt-3 text-2xl sm:text-[2rem] font-bold tracking-[-0.025em] leading-tight balance">Suivez vos performances avec des insights exploitables</h3>
-        <p class="mt-5 text-[1.02rem] leading-relaxed text-[color:var(--text-dim)]">
-          Consultez vos trades actifs, l'analyse hebdomadaire et mensuelle des pips et l'historique au même endroit — pour que « ce qui fonctionne » cesse d'être une impression et devienne quelque chose de démontrable.
-        </p>
-        <ul class="mt-6 space-y-3 text-[0.96rem] text-[color:var(--text-dim)]">
-          <li class="flex gap-3"><svg class="tick mt-1" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Analyse hebdomadaire et mensuelle des pips</li>
-          <li class="flex gap-3"><svg class="tick mt-1" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Graphiques limités à votre période de détention réelle</li>
-          <li class="flex gap-3"><svg class="tick mt-1" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Trades actifs et historique complet côte à côte</li>
-        </ul>
-      </div>
-      <div class="reveal order-1 lg:order-2 flex justify-center">
-        <div class="device">
-          <div class="device-screen">
-            <div class="device-island"></div>
-            <img src="../assets/screenshots/fr/history.png" alt="Écran d'historique et d'analyse des pips Zenlot" loading="lazy" decoding="async">
-            <div class="device-placeholder"><img class="dp-mark" src="../assets/brand/zenlot-mark.png" alt=""><span class="dp-label">history.png</span></div>
+      <div class="reveal">
+        <div class="loop" role="img" aria-label="Une boucle reliant Mes règles, Mon trade et Ma relecture">
+          <div class="loop-nodes">
+            <div class="loop-node">
+              <span class="icon-tile" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12M20 18h0"/><circle cx="16" cy="6" r="2"/><circle cx="10" cy="12" r="2"/><circle cx="18" cy="18" r="2"/></svg></span>
+              <strong>Mes règles</strong>
+              <small>Stop-loss, take-profit, profil de risque</small>
+            </div>
+            <div class="loop-node">
+              <span class="icon-tile" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></span>
+              <strong>Mon trade</strong>
+              <small>Entrée, taille du lot, raisonnement</small>
+            </div>
+            <div class="loop-node">
+              <span class="icon-tile" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 15l4-4 3 3 5-6"/></svg></span>
+              <strong>Ma relecture</strong>
+              <small>Historique, verdict, analyse</small>
+            </div>
+          </div>
+          <div class="loop-return" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/></svg>
+            <span>…et retour à mes règles</span>
           </div>
         </div>
+        <p class="loop-caption">Une routine que vous pouvez répéter.</p>
       </div>
     </div>
-
   </div>
 </section>
 
-<!-- ============================== PROFILS DE RISQUE ============================== -->
-<section id="profiles" class="py-20 sm:py-28 border-t" style="border-top-color: var(--line);">
-  <div class="mx-auto max-w-site px-5 sm:px-8">
-    <div class="max-w-2xl reveal">
-      <p class="eyebrow">Profils de risque</p>
-      <h2 class="mt-4 text-3xl sm:text-[2.6rem] leading-[1.14] font-extrabold tracking-[-0.03em] balance">Choisissez celui qui vous ressemble.</h2>
-      <p class="mt-5 text-[1.02rem] leading-relaxed text-[color:var(--text-dim)]">
-        Votre style indique à Zenlot comment signaler vos trades, pour que le journal corresponde à votre façon de penser. Modifiable à tout moment — ou passez en mode avancé et personnalisez chaque règle.
-      </p>
+<!-- ============================== ROUTINE (main infographic) ============================== -->
+<section class="section" id="how">
+  <div class="wrap">
+    <div class="paper reveal">
+      <div class="section-head center">
+        <p class="eyebrow">Fonctionnement</p>
+        <h2 class="h2 balance">Définissez vos règles. Enregistrez votre trade. Relisez et réfléchissez.</h2>
+      </div>
+
+      <ol class="routine">
+        <li class="stage">
+          <div class="stage-head">
+            <span class="stage-num" aria-hidden="true">1</span>
+            <div><div class="stage-label">Étape 1</div><div class="stage-title">Définir</div></div>
+          </div>
+          <p>Enregistrez des réglages de stop-loss et de take-profit en pips, réutilisables à chaque trade. Choisissez un profil de risque — Prudent, Équilibré ou Dynamique — et, si vous le souhaitez, construisez un plan de trading.</p>
+          <ul class="inapp" aria-label="Dans l’application"><li>Règles de trading</li><li>Profil de risque</li><li>Plan de trading</li></ul>
+          <div class="shot">
+            <div class="device"><div class="device-screen"><div class="device-island" aria-hidden="true"></div><img src="../assets/screenshots/fr/dark/02-trading-rules.png" data-shot="02-trading-rules" alt="Écran Règles de trading Zenlot avec des réglages de stop-loss et de take-profit en pips réutilisables" loading="lazy" decoding="async"><div class="device-placeholder" aria-hidden="true"><img class="dp-mark" src="../assets/brand/zenlot-mark.png" alt=""><span class="dp-title">Capture à venir</span><span class="dp-label">02-trading-rules.png</span></div></div></div>
+            <p class="shot-caption">Données d’exemple</p>
+          </div>
+        </li>
+        <li class="stage">
+          <div class="stage-head">
+            <span class="stage-num" aria-hidden="true">2</span>
+            <div><div class="stage-label">Étape 2</div><div class="stage-title">Enregistrer</div></div>
+          </div>
+          <p>Ajoutez votre entrée, la taille du lot, le stop-loss et le take-profit. Zenlot suggère des niveaux à partir de vos règles et affiche des repères de position et de gouvernance avant confirmation. Gardez la raison du trade à côté de ses détails.</p>
+          <ul class="inapp" aria-label="Dans l’application"><li>Saisie du trade</li><li>Checklist pré-trade</li><li>Note de journal</li></ul>
+          <div class="shot">
+            <div class="device"><div class="device-screen"><div class="device-island" aria-hidden="true"></div><img src="../assets/screenshots/fr/dark/01-trade-entry.png" data-shot="01-trade-entry" alt="Écran de saisie de trade Zenlot montrant l’entrée, le stop-loss, le take-profit et le ratio risque/récompense" loading="lazy" decoding="async"><div class="device-placeholder" aria-hidden="true"><img class="dp-mark" src="../assets/brand/zenlot-mark.png" alt=""><span class="dp-title">Capture à venir</span><span class="dp-label">01-trade-entry.png</span></div></div></div>
+            <p class="shot-caption">Données d’exemple</p>
+          </div>
+        </li>
+        <li class="stage">
+          <div class="stage-head">
+            <span class="stage-num" aria-hidden="true">3</span>
+            <div><div class="stage-label">Étape 3</div><div class="stage-title">Relire</div></div>
+          </div>
+          <p>Revenez à votre historique et à votre journal. Appuyez-vous sur l’analyse hebdomadaire et mensuelle, le verdict de chaque trade et les Analyses comportementales pour votre relecture.</p>
+          <ul class="inapp" aria-label="Dans l’application"><li>Historique</li><li>Analyse hebdomadaire et mensuelle</li><li>Verdict du trade</li><li>Analyses comportementales</li></ul>
+          <div class="shot">
+            <div class="device"><div class="device-screen"><div class="device-island" aria-hidden="true"></div><img src="../assets/screenshots/fr/dark/04-history.png" data-shot="04-history" alt="Historique Zenlot avec des trades clôturés aux résultats variés" loading="lazy" decoding="async"><div class="device-placeholder" aria-hidden="true"><img class="dp-mark" src="../assets/brand/zenlot-mark.png" alt=""><span class="dp-title">Capture à venir</span><span class="dp-label">04-history.png</span></div></div></div>
+            <p class="shot-caption">Données d’exemple</p>
+          </div>
+        </li>
+      </ol>
+
+      <div class="routine-foot">
+        <div>
+          <p class="support-line">Commencez par un enregistrement clair. Construisez une habitude à laquelle revenir.</p>
+          <p class="muted" style="margin-top:.6rem;font-size:.95rem">La boucle est votre routine, pas une exécution automatique — Zenlot ne passe jamais d’ordres pour vous.</p>
+        </div>
+        <div class="card card-pad reflection">
+          <p class="eyebrow">Une réflexion que vous pourriez écrire</p>
+          <p class="q" style="margin-top:.7rem"><span>Quelle était ma raison d’entrer ?</span><span>Ai-je suivi les règles que je comptais appliquer ?</span><span>Que dois-je retenir pour la prochaine fois ?</span></p>
+          <p class="note">Contenu de journal suggéré — à écrire à votre façon.</p>
+        </div>
+      </div>
+
+      <p class="eyebrow" style="margin-top:2.5rem">En langage simple</p>
+      <ul class="glossary">
+        <li><strong>Stop-loss</strong>Le prix auquel vous acceptez que le trade n’a pas fonctionné et le fermez.</li>
+        <li><strong>Take-profit</strong>Le prix auquel vous encaissez votre gain et fermez le trade.</li>
+        <li><strong>Pip</strong>Le plus petit pas de prix standard d’une paire de devises.</li>
+        <li><strong>Taille du lot</strong>Le volume que vous tradez. Zenlot peut en recommander un à partir de votre profil de risque.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== BENEFITS ============================== -->
+<section class="section" id="features">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <p class="eyebrow">Ce qui rend Zenlot utile</p>
+      <h2 class="h2 balance">Un enregistrement dont vous pouvez vraiment apprendre.</h2>
+      <p class="lead">Chaque fonctionnalité ci-dessous est dans la version actuelle sur l’App Store et Google Play.</p>
     </div>
 
-    <div class="mt-14 grid sm:grid-cols-3 gap-5">
-      <div class="card card-glow p-8 reveal">
-        <div class="flex items-center gap-2.5">
-          <span class="w-2 h-2 rounded-full bg-[color:var(--teal)]"></span>
-          <h3 class="text-xl font-bold tracking-tight">Prudent</h3>
-        </div>
-        <p class="mt-3.5 text-[0.98rem] leading-relaxed text-[color:var(--text-dim)]">Positions plus petites, mouvements plus stables. Des limites serrées pour qu'aucun trade ne pèse trop lourd.</p>
+    <div class="grid-3 benefits">
+      <div class="card card-pad benefit reveal"><span class="icon-tile" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12M20 18h0"/><circle cx="16" cy="6" r="2"/><circle cx="10" cy="12" r="2"/><circle cx="18" cy="18" r="2"/></svg></span><h3 class="h3">Des règles réutilisables.</h3><p>Vos réglages de stop-loss et de take-profit enregistrés vous proposent des niveaux pendant la saisie d’un trade.</p></div>
+      <div class="card card-pad benefit reveal"><span class="icon-tile" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></span><h3 class="h3">Un enregistrement avec du contexte.</h3><p>Gardez les chiffres et le raisonnement. Des réflexions écrites vous donnent plus à revisiter qu’un simple résultat.</p></div>
+      <div class="card card-pad benefit reveal"><span class="icon-tile" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 15l4-4 3 3 5-6"/></svg></span><h3 class="h3">Une routine de relecture sur mobile.</h3><p>Revenez à votre historique, à votre journal et à l’analyse hebdomadaire ou mensuelle, où que vous utilisiez votre téléphone.</p></div>
+      <div class="card card-pad benefit reveal"><span class="icon-tile" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg></span><h3 class="h3">Des garde-fous avant de confirmer.</h3><p>Position et gouvernance affiche le lot recommandé, l’exposition du capital et le ratio récompense-risque par rapport à votre profil de risque — et vous avertit lorsqu’un trade en sort.</p></div>
+      <div class="card card-pad benefit reveal"><span class="icon-tile" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18M3 7h18"/><path d="M6 7l-3 7a3 3 0 0 0 6 0L6 7zM18 7l-3 7a3 3 0 0 0 6 0l-3-7z"/><path d="M8 21h8"/></svg></span><h3 class="h3">Jugez le processus, pas seulement le résultat.</h3><p>Chaque trade clôturé reçoit un verdict avec son R-multiple et des notes de qualité du setup et de respect du plan, pour distinguer un gain chanceux d’une perte disciplinée.</p></div>
+      <div class="card card-pad benefit reveal"><span class="icon-tile" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0-4 10.5c.7.6 1 1.3 1 2V17h6v-1.5c0-.7.3-1.4 1-2A6 6 0 0 0 12 3z"/><path d="M10 21h4"/></svg></span><h3 class="h3">Des tendances exploitables.</h3><p>Après 10 trades évalués, les Analyses comportementales mettent en évidence vos habitudes récurrentes, preuves à l’appui.</p></div>
+    </div>
+    <p class="muted small reveal" style="margin-top:1.5rem;font-weight:600">Conçu pour les traders de tous niveaux. Actuellement gratuit.</p>
+
+    <div class="gallery reveal">
+      <p class="eyebrow">Aussi dans la version actuelle</p>
+      <div class="gallery-row">
+        <div class="shot"><div class="device device-sm"><div class="device-screen"><div class="device-island" aria-hidden="true"></div><img src="../assets/screenshots/fr/dark/05-analysis.png" data-shot="05-analysis" alt="Carte d’analyse hebdomadaire et mensuelle des pips dans Zenlot" loading="lazy" decoding="async"><div class="device-placeholder" aria-hidden="true"><img class="dp-mark" src="../assets/brand/zenlot-mark.png" alt=""><span class="dp-title">Capture à venir</span><span class="dp-label">05-analysis.png</span></div></div></div><p class="shot-caption">Analyse hebdomadaire et mensuelle</p></div>
+        <div class="shot"><div class="device device-sm"><div class="device-screen"><div class="device-island" aria-hidden="true"></div><img src="../assets/screenshots/fr/dark/06-risk-profile.png" data-shot="06-risk-profile" alt="Écran Profil de risque Zenlot avec les options Prudent, Équilibré et Dynamique" loading="lazy" decoding="async"><div class="device-placeholder" aria-hidden="true"><img class="dp-mark" src="../assets/brand/zenlot-mark.png" alt=""><span class="dp-title">Capture à venir</span><span class="dp-label">06-risk-profile.png</span></div></div></div><p class="shot-caption">Profil de risque</p></div>
+        <div class="shot"><div class="device device-sm"><div class="device-screen"><div class="device-island" aria-hidden="true"></div><img src="../assets/screenshots/fr/dark/07-verdict.png" data-shot="07-verdict" alt="Écran Verdict du trade Zenlot montrant le R-multiple, la qualité du setup et le respect du plan" loading="lazy" decoding="async"><div class="device-placeholder" aria-hidden="true"><img class="dp-mark" src="../assets/brand/zenlot-mark.png" alt=""><span class="dp-title">Capture à venir</span><span class="dp-label">07-verdict.png</span></div></div></div><p class="shot-caption">Verdict du trade</p></div>
+        <div class="shot"><div class="device device-sm"><div class="device-screen"><div class="device-island" aria-hidden="true"></div><img src="../assets/screenshots/fr/dark/08-insights.png" data-shot="08-insights" alt="Rapport Analyses comportementales Zenlot avec une tendance mise en évidence et ses preuves" loading="lazy" decoding="async"><div class="device-placeholder" aria-hidden="true"><img class="dp-mark" src="../assets/brand/zenlot-mark.png" alt=""><span class="dp-title">Capture à venir</span><span class="dp-label">08-insights.png</span></div></div></div><p class="shot-caption">Analyses comportementales</p></div>
       </div>
-      <div class="card card-glow p-8 reveal">
-        <div class="flex items-center gap-2.5">
-          <span class="w-2 h-2 rounded-full" style="background:var(--blue-bright)"></span>
-          <h3 class="text-xl font-bold tracking-tight">Équilibré</h3>
+      <p class="muted small" style="margin-top:1rem;text-align:center">Les écrans présentent des données d’exemple, pas des résultats réels d’utilisateurs.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== PERSONAS ============================== -->
+<section class="section" id="who">
+  <div class="wrap">
+    <div class="section-head center reveal">
+      <p class="eyebrow">Pour qui</p>
+      <h2 class="h2 balance">Où que vous en soyez en trading, un enregistrement clair aide à relire.</h2>
+    </div>
+    <div class="grid-3" style="margin-top:2.5rem">
+      <div class="card card-pad persona reveal"><span class="tag">Vous débutez ?</span><h3 class="h3">Commencez par l’habitude.</h3><p>Notez les détails et votre raisonnement pour chaque trade. Les termes en langage simple ci-dessus suffisent pour démarrer.</p></div>
+      <div class="card card-pad persona reveal"><span class="tag">Vous travaillez votre régularité ?</span><h3 class="h3">Gardez les règles dans la routine.</h3><p>Gardez vos règles et vos réflexions dans chaque enregistrement, et laissez les verdicts montrer où les deux s’écartent.</p></div>
+      <div class="card card-pad persona reveal"><span class="tag">Déjà expérimenté ?</span><h3 class="h3">Gardez le processus à portée de main.</h3><p>Conservez votre historique de trading et votre processus de relecture sur votre téléphone, avec l’historique, l’analyse et les analyses comportementales.</p></div>
+    </div>
+    <p class="muted small reveal" style="margin-top:1.5rem;text-align:center">Zenlot soutient votre routine. Il ne remplace ni la formation au trading ni votre propre jugement.</p>
+  </div>
+</section>
+
+<!-- ============================== DOWNLOAD ============================== -->
+<section class="section" id="get">
+  <div class="wrap">
+    <div class="cta-panel shell-ambient reveal">
+      <div class="cta-grid">
+        <div>
+          <p class="eyebrow">Télécharger Zenlot</p>
+          <h2 class="h2 balance">Commencez votre prochaine relecture avec un enregistrement plus clair.</h2>
+          <p class="lead" style="max-width:32rem">Définissez vos règles de trading, enregistrez un trade et écrivez pourquoi vous l’avez pris. Donnez-vous quelque chose de concret à relire.</p>
+          <div class="badges" style="margin-top:1.75rem">
+            <a href="https://apps.apple.com/us/app/zenlot/id6759946394" data-store="ios" class="store-badge" target="_blank" rel="noopener" aria-label="Télécharger Zenlot sur l’App Store"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.53 4.08zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/></svg><span><span class="sb-small">Télécharger dans l’</span><span class="sb-big">App Store</span></span></a>
+            <a href="https://play.google.com/store/apps/details?id=com.zenlot.app" data-store="android" class="store-badge" target="_blank" rel="noopener" aria-label="Obtenir Zenlot sur Google Play"><svg width="22" height="24" viewBox="0 0 512 512" aria-hidden="true"><path fill="#00a0ff" d="M47 0C34 6.8 25.3 19.2 25.3 35.3v441.3c0 16.1 8.7 28.5 21.7 35.3l256.6-256L47 0z"/><path fill="#ffbc00" d="M472.2 225.6l-58.9-34.1-65.7 64.5 65.7 64.5 60.1-34.1c18-14.3 18-46.5-1.2-60.8z"/><path fill="#ff3a44" d="M104.6 499l280.8-161.2-60.1-60.1L104.6 499z"/><path fill="#00c852" d="M325.3 234.3L104.6 13l280.8 161.2-60.1 60.1z"/></svg><span><span class="sb-small">DISPONIBLE SUR</span><span class="sb-big">Google Play</span></span></a>
+          </div>
+          <p class="offer-line">Zenlot est actuellement gratuit.</p>
         </div>
-        <p class="mt-3.5 text-[0.98rem] leading-relaxed text-[color:var(--text-dim)]">Taille de position modérée, risque mixte. Un entre-deux pour ceux qui veulent un cadre sans camisole.</p>
-      </div>
-      <div class="card card-glow p-8 reveal">
-        <div class="flex items-center gap-2.5">
-          <span class="w-2 h-2 rounded-full" style="background:var(--blue)"></span>
-          <h3 class="text-xl font-bold tracking-tight">Dynamique</h3>
+        <div class="qr" aria-hidden="true">
+          <img src="../assets/brand/qr-download.svg" alt="" width="150" height="150" loading="lazy">
+          <p>Scannez pour ouvrir cette page sur votre téléphone.</p>
         </div>
-        <p class="mt-3.5 text-[0.98rem] leading-relaxed text-[color:var(--text-dim)]">Positions plus importantes, mouvements plus marqués. Des limites plus larges — mais toujours des limites, appliquées et journalisées.</p>
       </div>
     </div>
   </div>
 </section>
 
 <!-- ============================== FAQ ============================== -->
-<section id="faq" class="py-20 sm:py-28 border-t" style="border-top-color: var(--line);">
-  <div class="mx-auto max-w-site px-5 sm:px-8 grid lg:grid-cols-[0.8fr_1.2fr] gap-12">
-    <div class="reveal">
-      <p class="eyebrow">FAQ</p>
-      <h2 class="mt-4 text-3xl sm:text-[2.4rem] leading-[1.14] font-extrabold tracking-[-0.03em] balance">Vos questions, nos réponses.</h2>
-      <p class="mt-5 text-[0.98rem] leading-relaxed text-[color:var(--text-dim)]">
-        Toujours bloqué ? <a href="https://privacy.zenlot.net/support/fr" target="_blank" rel="noopener" class="text-[color:var(--teal)] hover:underline underline-offset-4">Contactez le support</a>.
-      </p>
-    </div>
-
-    <div class="faq space-y-3 reveal">
-      <details class="card p-6">
-        <summary class="font-semibold text-[1.02rem]">Zenlot se connecte-t-il à mon courtier ?<svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="m6 9 6 6 6-6"/></svg></summary>
-        <p class="mt-4 text-[0.95rem] leading-relaxed text-[color:var(--text-dim)]">Aucune connexion à un courtier n'est nécessaire. Zenlot est une couche de planification et de journalisation qui accompagne votre façon de trader actuelle — vous gardez le contrôle total de l'exécution.</p>
-      </details>
-      <details class="card p-6">
-        <summary class="font-semibold text-[1.02rem]">Zenlot est-il gratuit ?<svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="m6 9 6 6 6-6"/></svg></summary>
-        <p class="mt-4 text-[0.95rem] leading-relaxed text-[color:var(--text-dim)]">Le téléchargement est gratuit sur l'App Store et Google Play. Créez un compte et configurez votre profil de risque en une minute environ.</p>
-      </details>
-      <details class="card p-6">
-        <summary class="font-semibold text-[1.02rem]">Quelles langues sont prises en charge ?<svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="m6 9 6 6 6-6"/></svg></summary>
-        <p class="mt-4 text-[0.95rem] leading-relaxed text-[color:var(--text-dim)]">Le français, l'anglais et l'espagnol, dans toute l'application — y compris les dates, le formatage des nombres et les séparateurs décimaux, qui suivent les réglages de votre appareil et votre langue.</p>
-      </details>
-      <details class="card p-6">
-        <summary class="font-semibold text-[1.02rem]">Puis-je modifier mes règles plus tard ?<svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="m6 9 6 6 6-6"/></svg></summary>
-        <p class="mt-4 text-[0.95rem] leading-relaxed text-[color:var(--text-dim)]">À tout moment. Basculez entre Prudent, Équilibré et Dynamique, ou utilisez le mode avancé pour modifier chaque règle individuellement à partir de votre profil actuel.</p>
-      </details>
-      <details class="card p-6">
-        <summary class="font-semibold text-[1.02rem]">Comment supprimer mon compte et mes données ?<svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="m6 9 6 6 6-6"/></svg></summary>
-        <p class="mt-4 text-[0.95rem] leading-relaxed text-[color:var(--text-dim)]">Suivez la procédure sur notre <a href="https://privacy.zenlot.net/account-deletion/fr" target="_blank" rel="noopener" class="text-[color:var(--teal)] hover:underline underline-offset-4">page de suppression de compte</a>.</p>
-      </details>
-      <details class="card p-6">
-        <summary class="font-semibold text-[1.02rem]">Zenlot est-il un conseil en investissement ?<svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="m6 9 6 6 6-6"/></svg></summary>
-        <p class="mt-4 text-[0.95rem] leading-relaxed text-[color:var(--text-dim)]">Non. Zenlot est un outil permettant d'appliquer des règles que vous définissez vous-même et d'enregistrer vos propres décisions. Il ne fournit ni conseil financier, ni recommandation, ni signal de trading. Le trading comporte des risques, y compris la perte de votre capital.</p>
-      </details>
-    </div>
-  </div>
-</section>
-
-<!-- ============================== CTA FINAL ============================== -->
-<section class="py-20 sm:py-28 border-t" style="border-top-color: var(--line);">
-  <div class="mx-auto max-w-site px-5 sm:px-8">
-    <div class="card card-glow reveal relative overflow-hidden px-7 py-14 sm:px-16 sm:py-20 text-center">
-      <div class="absolute inset-0 pointer-events-none" style="background: radial-gradient(38rem 20rem at 50% -20%, rgba(47,188,193,0.20), transparent 65%);"></div>
-      <div class="relative">
-        <img src="../assets/brand/zenlot-mark.png" alt="" width="60" height="60" class="mx-auto w-[60px] h-[60px] rounded-[18px] mb-7">
-        <h2 class="text-3xl sm:text-[2.7rem] leading-[1.1] font-extrabold tracking-[-0.03em] balance">Tradez avec plus de confiance.</h2>
-        <p class="mt-5 text-lg text-[color:var(--text-dim)] max-w-xl mx-auto">Configurons votre profil de risque et vos valeurs par défaut. Cela prend environ une minute.</p>
-        <div class="mt-9 flex flex-wrap justify-center gap-3">
-          <a href="https://apps.apple.com/us/app/zenlot/id6759946394" data-store="ios" class="store-badge" target="_blank" rel="noopener" aria-label="Télécharger Zenlot sur l'App Store">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.53 4.08zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/></svg>
-            <span><span class="sb-small">Télécharger dans l'</span><span class="sb-big">App Store</span></span>
-          </a>
-          <a href="https://play.google.com/store/apps/details?id=com.zenlot.app" data-store="android" class="store-badge" target="_blank" rel="noopener" aria-label="Disponible sur Google Play">
-            <svg width="22" height="24" viewBox="0 0 512 512" aria-hidden="true">
-              <path fill="#00a0ff" d="M47 0C34 6.8 25.3 19.2 25.3 35.3v441.3c0 16.1 8.7 28.5 21.7 35.3l256.6-256L47 0z"/>
-              <path fill="#ffbc00" d="M472.2 225.6l-58.9-34.1-65.7 64.5 65.7 64.5 60.1-34.1c18-14.3 18-46.5-1.2-60.8z"/>
-              <path fill="#ff3a44" d="M104.6 499l280.8-161.2-60.1-60.1L104.6 499z"/>
-              <path fill="#00c852" d="M325.3 234.3L104.6 13l280.8 161.2-60.1 60.1z"/>
-            </svg>
-            <span><span class="sb-small">DISPONIBLE SUR</span><span class="sb-big">Google Play</span></span>
-          </a>
-        </div>
+<section class="section" id="faq">
+  <div class="wrap">
+    <div class="faq-grid">
+      <div class="reveal">
+        <p class="eyebrow">FAQ</p>
+        <h2 class="h2 balance">Vos questions, nos réponses.</h2>
+        <p class="lead">Une autre question ? <a href="https://privacy.zenlot.net/support/fr" target="_blank" rel="noopener" class="textlink">Contactez le support</a>.</p>
+      </div>
+      <div class="faq reveal">
+        <details class="card"><summary>À qui s’adresse Zenlot ?<svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary><p>Aux traders de tous niveaux qui veulent construire leur discipline par des règles, l’enregistrement des trades et la réflexion. L’application est centrée sur le forex.</p></details>
+        <details class="card"><summary>Que puis-je enregistrer ?<svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary><p>Les détails d’un trade comme l’entrée, la taille du lot, le stop-loss et le take-profit, accompagnés de notes écrites. Les trades clôturés reçoivent un verdict que vous pouvez relire plus tard.</p></details>
+        <details class="card"><summary>Zenlot passe-t-il des ordres chez mon broker ?<svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary><p>Non. Zenlot enregistre et suit vos trades ; il n’envoie aucun ordre à votre broker. Un trade suivi peut se clôturer automatiquement dans l’application lorsque son stop-loss ou son take-profit est atteint — cela met à jour votre enregistrement, ce n’est pas un ordre de bourse.</p></details>
+        <details class="card"><summary>Zenlot est-il gratuit ?<svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary><p>Oui. Zenlot est actuellement gratuit.</p></details>
+        <details class="card"><summary>Où puis-je le télécharger ?<svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary><p>Utilisez les boutons App Store ou Google Play de cette page.</p></details>
+        <details class="card"><summary>Quelles langues sont prises en charge ?<svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary><p>L’anglais, le français et l’espagnol dans toute l’application — y compris les dates et le format des nombres, qui suivent les réglages de votre appareil.</p></details>
+        <details class="card"><summary>Comment supprimer mon compte et mes données ?<svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary><p>Suivez la procédure sur notre <a href="https://privacy.zenlot.net/account-deletion/fr" target="_blank" rel="noopener">page de suppression de compte</a>.</p></details>
+        <details class="card"><summary>Zenlot est-il un conseil financier ?<svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary><p>Non. Zenlot est un outil pour appliquer des règles que vous définissez vous-même et enregistrer vos propres décisions. Il ne fournit ni conseil financier, ni recommandation, ni signal de trading. Le trading comporte des risques, y compris la perte de votre capital.</p></details>
       </div>
     </div>
   </div>
 </section>
 
+</div><!-- /.page -->
 </main>
 
-<!-- ============================== PIED DE PAGE ============================== -->
-<footer class="border-t py-14" style="border-top-color: var(--line);">
-  <div class="mx-auto max-w-site px-5 sm:px-8">
-    <div class="flex flex-col md:flex-row md:items-start justify-between gap-10">
-      <div class="max-w-sm">
-        <a href="#top" class="flex items-center gap-2.5">
-          <img src="../assets/brand/zenlot-mark.png" alt="" width="30" height="30" class="w-[30px] h-[30px] rounded-[9px]">
-          <span class="text-[1.05rem] font-extrabold tracking-tight">Zenlot</span>
-        </a>
-        <p class="mt-4 text-[0.9rem] leading-relaxed text-[color:var(--text-dimmer)]">Maîtrisez la gestion des risques en toute simplicité. Disponible sur iOS et Android, en français, en anglais et en espagnol.</p>
+<!-- ============================== FOOTER ============================== -->
+<footer class="shell site-footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="#top" class="brand"><img src="../assets/brand/zenlot-mark.png" alt="" width="30" height="30"><span>Zenlot</span></a>
+        <p>Un journal de trading forex pour construire votre discipline. Disponible sur iOS et Android en anglais, français et espagnol.</p>
       </div>
-
-      <div class="grid grid-cols-2 sm:grid-cols-3 gap-x-12 gap-y-8 text-[0.9rem]">
+      <div class="footer-cols">
         <div>
-          <h4 class="font-semibold text-white mb-3.5">Produit</h4>
-          <ul class="space-y-2.5 text-[color:var(--text-dimmer)]">
-            <li><a href="#how" class="hover:text-white transition-colors">Fonctionnement</a></li>
-            <li><a href="#features" class="hover:text-white transition-colors">Fonctionnalités</a></li>
-            <li><a href="#profiles" class="hover:text-white transition-colors">Profils de risque</a></li>
-            <li><a href="#faq" class="hover:text-white transition-colors">FAQ</a></li>
+          <h4>Produit</h4>
+          <ul>
+            <li><a href="#how">Fonctionnement</a></li>
+            <li><a href="#features">Fonctionnalités</a></li>
+            <li><a href="#who">Pour qui</a></li>
+            <li><a href="#faq">FAQ</a></li>
           </ul>
         </div>
         <div>
-          <h4 class="font-semibold text-white mb-3.5">Télécharger</h4>
-          <ul class="space-y-2.5 text-[color:var(--text-dimmer)]">
-            <li><a href="https://apps.apple.com/us/app/zenlot/id6759946394" target="_blank" rel="noopener" class="hover:text-white transition-colors">App Store</a></li>
-            <li><a href="https://play.google.com/store/apps/details?id=com.zenlot.app" target="_blank" rel="noopener" class="hover:text-white transition-colors">Google Play</a></li>
+          <h4>Télécharger</h4>
+          <ul>
+            <li><a href="https://apps.apple.com/us/app/zenlot/id6759946394" target="_blank" rel="noopener">App Store</a></li>
+            <li><a href="https://play.google.com/store/apps/details?id=com.zenlot.app" target="_blank" rel="noopener">Google Play</a></li>
           </ul>
         </div>
         <div>
-          <h4 class="font-semibold text-white mb-3.5">Légal &amp; support</h4>
-          <ul class="space-y-2.5 text-[color:var(--text-dimmer)]">
-            <li><a href="https://privacy.zenlot.net/support/fr" target="_blank" rel="noopener" class="hover:text-white transition-colors">Support</a></li>
-            <li><a href="https://privacy.zenlot.net/privacy-policy/fr" target="_blank" rel="noopener" class="hover:text-white transition-colors">Politique de confidentialité</a></li>
-            <li><a href="https://privacy.zenlot.net/account-deletion/fr" target="_blank" rel="noopener" class="hover:text-white transition-colors">Suppression de compte</a></li>
-            <li><a href="../" hreflang="en" class="hover:text-white transition-colors">English</a></li>
-            <li><a href="../es/" hreflang="es" class="hover:text-white transition-colors">Español</a></li>
+          <h4>Légal et support</h4>
+          <ul>
+            <li><a href="https://privacy.zenlot.net/support/fr" target="_blank" rel="noopener">Support</a></li>
+            <li><a href="https://privacy.zenlot.net/privacy-policy/fr" target="_blank" rel="noopener">Politique de confidentialité</a></li>
+            <li><a href="https://privacy.zenlot.net/account-deletion/fr" target="_blank" rel="noopener">Suppression de compte</a></li>
+            <li><a href="../" hreflang="en" lang="en">English</a></li>
+            <li><a href="../es/" hreflang="es" lang="es">Español</a></li>
           </ul>
         </div>
       </div>
     </div>
-
-    <div class="mt-12 pt-8 hairline flex flex-col sm:flex-row sm:items-center justify-between gap-4 text-[0.82rem] text-[color:var(--text-dimmer)]">
+    <div class="footer-legal">
       <p>&copy; <span data-year>2026</span> Zenlot. Tous droits réservés.</p>
-      <p class="max-w-xl sm:text-right">Le trading comporte des risques, y compris la perte possible du capital. Zenlot est un outil de planification et de journalisation et ne fournit ni conseil financier ni recommandation de trading.</p>
+      <p class="scope">Zenlot facilite la tenue d’un journal et la relecture des trades. Il ne garantit aucun résultat de trading. Le trading comporte des risques, y compris la perte du capital. Zenlot ne fournit ni conseil financier ni recommandation de trade. L’utilisation de l’application est soumise aux conditions d’utilisation et à la politique de confidentialité présentées dans l’application.</p>
     </div>
   </div>
 </footer>
