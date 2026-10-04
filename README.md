@@ -1,7 +1,9 @@
 # zenlot-site
 
-Marketing landing page for **Zenlot** — the risk-management and trade-journaling
-app. Static HTML + Tailwind (Play CDN), no build step, deployed to GitHub Pages.
+Marketing landing page for **Zenlot** — the forex trading journal for building
+discipline. Plain static HTML + CSS, no build step, no framework, deployed to
+GitHub Pages. The page is an infographic-style walk through the app's routine:
+**Set your rules → Record your trade → Review and reflect**.
 
 Live: <https://info.zenlot.net/> ·
 FR: <https://info.zenlot.net/fr/> ·
@@ -10,17 +12,41 @@ ES: <https://info.zenlot.net/es/>
 ## Structure
 
 ```
-index.html            English landing page
-fr/index.html         French landing page (copy matched to localization/french.ts)
-es/index.html         Spanish landing page (copy matched to localization/spanish.ts)
-assets/site.css       Shared styles — palette, device frames, cards, animations
-assets/site.js        Shared behaviour — scroll reveal, mobile menu, screenshot fallback
-assets/brand/         Logo + favicons, lifted from the Expo app's assets
-assets/screenshots/   ← drop your EN app screenshots here (see that folder's README)
-assets/screenshots/fr/  French-locale screenshots
-assets/screenshots/es/  Spanish-locale screenshots (placeholder until PNGs are added)
-.github/workflows/    Pages deploy on push to main
+index.html                 English page (also the language auto-router)
+fr/index.html              French page — terminology matched to zenlot/localization/french.ts
+es/index.html              Spanish page — terminology matched to zenlot/localization/spanish.ts
+assets/site.css            All styles: theme tokens, shell/paper surfaces, device frames, infographic
+assets/site.js             Theme toggle, screenshot resolution + fallback, nav, reveal, language memory
+assets/brand/              Logo, favicons, per-language social-share images (og-*.png), download QR
+assets/screenshots/        ← app captures go here: <lang>/<light|dark>/NN-name.png (see its README)
+assets/screenshots/legacy/ previous site's captures, unused
+sitemap.xml, robots.txt    absolute URLs on https://info.zenlot.net/
+.github/workflows/         Pages deploy on push to main
 ```
+
+## Page sections
+
+Hero → Why Zenlot (rules/trade/review loop) → How it works (three-stage
+infographic on a light panel, with a suggested reflection and plain-language
+glossary) → What makes it worth trying (six benefit cards + gallery of four
+more screens) → Who it's for → Download (badges + QR) → FAQ → footer with
+Support / Privacy / Account deletion links and the scope statement.
+
+Copy follows `ZENLOT_INFOGRAPHIC_BRIEF.md` and promotes only what ships in the
+current store release (1.5.0). Every device frame is captioned "Example data".
+
+## Light / dark theme
+
+The page follows the visitor's system setting and offers a sun/moon toggle in
+the header. Choosing a theme stores it (`localStorage` `zenlot:theme`); picking
+the one that matches the system clears the stored choice so the page goes back
+to following the system. `?theme=light|dark` on any page forces (and stores) a
+theme — handy for testing. Header, hero, download panel and footer stay navy in
+both themes; the How-it-works panel stays light; everything else switches.
+
+Colours are CSS custom properties at the top of `assets/site.css` — `:root`
+holds the light palette, `:root[data-theme="dark"]` the dark one (repeated
+under `prefers-color-scheme: dark` for visitors without JS).
 
 ## First-time setup
 
@@ -62,13 +88,22 @@ footer) across all three language pages. Search and replace:
 - iOS — `https://apps.apple.com/us/app/zenlot/id6759946394`
 - Android — `https://play.google.com/store/apps/details?id=com.zenlot.app`
 
-**Colours** live as CSS custom properties at the top of `assets/site.css`.
-They were sampled from the app icon: teal `#2fbcc1` → blue `#1478a7` on the
-splash navy `#001c34` from `zenlot/app.json`.
+**Colours** were sampled from the app icon: teal `#2fbcc1` → blue `#1478a7`
+on the splash navy `#001c34` from `zenlot/app.json`.
 
-**Copy** in the FR and ES pages is aligned to `zenlot/localization/french.ts`
-and `zenlot/localization/spanish.ts`. If you change wording in the app, mirror
-it here so terminology stays consistent.
+**Copy** in the FR and ES pages uses the same feature names as
+`zenlot/localization/french.ts` and `spanish.ts` (Règles de trading, Profil de
+risque, Verdict du trade, Analyses comportementales / Reglas de trading, Perfil
+de riesgo, Veredicto de la operación, Información conductual…). If you rename a
+feature in the app, mirror it here.
+
+**Legal links** go to `privacy.zenlot.net/support/`, `/privacy-policy/` and
+`/account-deletion/` (with `/fr` and `/es` suffixes on the localized pages).
+Terms of Service and Data Retention are referenced in the footer text but not
+linked, because no public page for them exists yet — add links when they do.
+
+**Screenshots** — see `assets/screenshots/README.md` for the eight filenames,
+which app screen each shows, and the light/dark + language fallback order.
 
 ## Language routing
 
@@ -104,9 +139,9 @@ three HTML files, plus `sitemap.xml` and `robots.txt`) point at
 `https://info.zenlot.net/`. To move to another domain, update the `CNAME` file,
 the DNS record, and those same absolute URLs.
 
-## Production hardening (optional)
+## Before publishing
 
-The Tailwind Play CDN compiles styles in the browser — fine for a landing page,
-but it costs a little first-paint time and shows a console warning. To remove
-both, install Tailwind, generate a static stylesheet, and swap the
-`<script src="https://cdn.tailwindcss.com…">` tag for that file.
+- Drop in at least the P1 screenshots (`assets/screenshots/README.md`).
+- Open both store links on their phones; confirm regional availability.
+- Confirm "currently free" still applies.
+- Check the theme toggle, keyboard navigation and the EN · FR · ES switcher.
