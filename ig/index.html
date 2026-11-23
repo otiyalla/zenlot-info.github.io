@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Zenlot on Instagram</title>
+<meta name="description" content="Zenlot is a free forex trading journal for iOS and Android. Plan, record and review every trade against your own rules.">
+<!-- Link-in-bio hub for @zenlot_app. Not a landing page for search. -->
+<meta name="robots" content="noindex">
+<link rel="icon" type="image/png" sizes="32x32" href="../assets/brand/favicon-32.png">
+<link rel="apple-touch-icon" href="../assets/brand/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;700;800&amp;display=swap" rel="stylesheet">
+<style>
+  /* Always-navy "shell" surface from the main site (assets/site.css), so the
+     hand-off from the Instagram app feels like the same brand. */
+  :root {
+    color-scheme: dark;
+    --navy-900: #00121f; --navy-800: #001c34; --navy-700: #052a45;
+    --teal: #2fbcc1; --teal-bright: #45d7dc; --blue: #1478a7; --warn: #d97b16;
+    --text: #eaf2f8; --dim: #a6bccd; --dimmer: #7f97ab;
+    --line: rgba(255, 255, 255, 0.1); --line-strong: rgba(255, 255, 255, 0.18);
+    --font: "Plus Jakarta Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; }
+  body {
+    min-height: 100vh; background: linear-gradient(170deg, var(--navy-800), var(--navy-900));
+    color: var(--text); font-family: var(--font); font-size: 16px; line-height: 1.55;
+    padding: max(28px, env(safe-area-inset-top)) max(18px, env(safe-area-inset-right)) max(32px, env(safe-area-inset-bottom)) max(18px, env(safe-area-inset-left));
+  }
+  main { max-width: 440px; margin: 0 auto; display: flex; flex-direction: column; gap: 22px; }
+  header { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 10px; }
+  header img { width: 64px; height: 64px; border-radius: 16px; }
+  h1 { margin: 0; font-size: 26px; font-weight: 800; letter-spacing: -0.02em; text-wrap: balance; }
+  .tagline { margin: 0; color: var(--dim); }
+  .stores { display: flex; flex-direction: column; gap: 10px; }
+  .btn {
+    display: flex; align-items: center; justify-content: space-between; gap: 12px;
+    padding: 16px 18px; border-radius: 14px; text-decoration: none; color: var(--text);
+    border: 1px solid var(--line-strong); background: rgba(255, 255, 255, 0.04); font-weight: 700;
+  }
+  .btn small { display: block; font-weight: 500; color: var(--dim); font-size: 13px; }
+  .btn.primary { background: linear-gradient(120deg, var(--teal), var(--blue)); border-color: transparent; color: #00121f; }
+  .btn.primary small { color: rgba(0, 18, 31, 0.75); }
+  .btn:focus-visible { outline: 3px solid var(--teal-bright); outline-offset: 2px; }
+  .btn svg { flex: none; }
+  .note { margin: 0; text-align: center; color: var(--dimmer); font-size: 14px; }
+  .links { display: flex; flex-direction: column; gap: 8px; }
+  .links a { color: var(--text); text-decoration: none; padding: 12px 16px; border: 1px solid var(--line); border-radius: 12px; display: flex; justify-content: space-between; }
+  .links a span { color: var(--dimmer); }
+  .safety { border: 1px solid rgba(217, 123, 22, 0.45); background: rgba(217, 123, 22, 0.08); border-radius: 14px; padding: 14px 16px; display: flex; flex-direction: column; gap: 6px; }
+  .safety b { color: #f2a65a; font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; }
+  .safety p { margin: 0; font-size: 15px; }
+  footer { color: var(--dimmer); font-size: 13px; text-align: center; }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <img src="../assets/brand/zenlot-icon.png" alt="Zenlot app icon" width="64" height="64">
+    <h1>Build discipline. Trade by your rules.</h1>
+    <p class="tagline">A free forex trading journal. Plan, record and review every trade against your own rules.</p>
+  </header>
+
+  <section class="stores" aria-label="Download Zenlot">
+    <a class="btn" id="ios" href="https://apps.apple.com/us/app/zenlot/id6759946394">
+      <span>Download on the App Store<small>iPhone · free</small></span>
+      <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </a>
+    <a class="btn" id="android" href="https://play.google.com/store/apps/details?id=com.zenlot.app">
+      <span>Get it on Google Play<small>Android · free</small></span>
+      <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </a>
+    <p class="note">English, French and Spanish. No broker connection, no account access.</p>
+  </section>
+
+  <section class="safety" aria-label="Safety notice">
+    <b>Stay safe</b>
+    <p>Zenlot will never DM you for money, deposits, passwords or "signals". Our only Instagram account is <strong>@zenlot_app</strong>. Report any account that copies us.</p>
+  </section>
+
+  <nav class="links" aria-label="More from Zenlot">
+    <a href="../">How Zenlot works <span>info.zenlot.net</span></a>
+    <a href="../fr/">Zenlot en français <span>FR</span></a>
+    <a href="../es/">Zenlot en español <span>ES</span></a>
+  </nav>
+
+  <footer>Education, not financial advice.</footer>
+</main>
+
+<script>
+/*
+  Install tracking for the Instagram bio link.
+  Campaign = "ig_<ISO week>", e.g. ig_2026-W48, so installs can be matched to
+  that week's posts without editing the bio. Add ?p=<post id> to a link to
+  tag a single post (utm_content).
+
+  - Google Play: install referrer, visible in Play Console → Acquisition.
+  - App Store: campaign links need the provider token (pt) from
+    App Store Connect → Apps → Zenlot → App Analytics → Acquisition → Campaigns
+    → "Generate a campaign link". Put it in APP_STORE_PT. Without it the
+    App Store link still works but isn't counted as a campaign.
+*/
+(function () {
+  var APP_STORE_PT = ''; // e.g. '123456789'
+
+  function isoWeek(d) {
+    var t = new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate()));
+    var day = (t.getUTCDay() + 6) % 7;
+    t.setUTCDate(t.getUTCDate() - day + 3);
+    var year = t.getUTCFullYear();
+    var jan4 = new Date(Date.UTC(year, 0, 4));
+    var week = 1 + Math.round(((t - jan4) / 86400000 - 3 + ((jan4.getUTCDay() + 6) % 7)) / 7);
+    return year + '-W' + (week < 10 ? '0' : '') + week;
+  }
+
+  var params = new URLSearchParams(location.search);
+  var post = (params.get('p') || 'bio').replace(/[^\w-]/g, '').slice(0, 40) || 'bio';
+  var campaign = 'ig_' + isoWeek(new Date());
+
+  var referrer = 'utm_source=instagram&utm_medium=social&utm_campaign=' + campaign + '&utm_content=' + post;
+  document.getElementById('android').href =
+    'https://play.google.com/store/apps/details?id=com.zenlot.app&referrer=' + encodeURIComponent(referrer);
+
+  if (APP_STORE_PT) {
+    document.getElementById('ios').href =
+      'https://apps.apple.com/app/apple-store/id6759946394?pt=' + APP_STORE_PT + '&ct=' + campaign + '&mt=8';
+  }
+
+  // Put the visitor's own store first.
+  var ua = navigator.userAgent || '';
+  var first = /android/i.test(ua) ? 'android' : /iphone|ipad|ipod|macintosh/i.test(ua) ? 'ios' : null;
+  if (first) {
+    var el = document.getElementById(first);
+    el.classList.add('primary');
+    el.parentNode.insertBefore(el, el.parentNode.firstChild);
+  }
+})();
+</script>
+</body>
+</html>
