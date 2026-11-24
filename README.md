@@ -13,7 +13,10 @@ ES: <https://info.zenlot.net/es/>
 
 ```
 index.html                 English page (also the language auto-router)
-ig/index.html              Instagram link-in-bio page (noindex). Tags store links with ig_<ISO week>; set APP_STORE_PT for App Store campaigns
+ig/index.html              Instagram link-in-bio page (noindex). Campaign "instagram"
+x/index.html               X link-in-bio page (noindex). Campaign "x"
+assets/link-page.css       Styles for ig/ and x/
+assets/install-links.js    Store links for ig/ and x/: fixed campaign per page, ?p=<post id> tags one post, APP_STORE_PT is the Apple token
 fr/index.html              French page — terminology matched to zenlot/localization/french.ts
 es/index.html              Spanish page — terminology matched to zenlot/localization/spanish.ts
 assets/site.css            All styles: theme tokens, shell/paper surfaces, device frames, infographic
